@@ -56,6 +56,9 @@ class ProjectController extends Controller
         $project->name = $request->name;
         $project->save();
 
+        $stats = new Stat();
+        $stats->increment(['projects_count']);
+        
         return redirect('/')->with('success', 'Project created');
     }
 
