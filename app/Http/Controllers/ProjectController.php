@@ -30,11 +30,11 @@ class ProjectController extends Controller
         //   where name = $request->old_name
 
         // Insert Eloquent statement below
-        $validated = $request->validated();
-        $validated = $request->safe()->only(['new_name','old_name']);
+        // $validated = $request->validated();
+        // $validated = $request->safe()->only(['new_name','old_name']);
+        // Project::where('name', $validated['old_name'])->update(['name' => $validated['new_name']]);
 
-        Project::where('name', $validated['old_name'])->update(['name' => $validated['new_name']]);
-
+        Project::where('name', $request->old_name)->update(['name' => $request->new_name]);
         return redirect('/')->with('success', 'Projects updated');
     }
 
