@@ -52,13 +52,19 @@ class ProjectController extends Controller
     {
         // TASK: on creating a new project, create an Observer event to run SQL
         //   update stats set projects_count = projects_count + 1
-        $project = new Project;
+        $project = new Project();
         $project->name = $request->name;
         $project->save();
 
         // $stats = new Stat;
         // $stats->increment(['projects_count']);
         // $stats->save();
+
+        $stat = Stat::first();
+        $stat->increment(['projects_count']);
+        // $count = $stat->projects_count + 1;
+        // $stat->projects_count = $count;
+        $stat->save();
 
         return redirect('/')->with('success', 'Project created');
     }
