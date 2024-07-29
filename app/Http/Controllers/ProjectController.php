@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Stat;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -11,8 +12,11 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         // TASK: Currently this statement fails. Fix the underlying issue.
+        $validated = $request->validated();
+        $validated = $request->safe()->only(['name']);
+
         Project::create([
-            'name' => $request->name
+            'name' => $validated->name
         ]);
 
         return redirect('/')->with('success', 'Project created');
@@ -26,6 +30,10 @@ class ProjectController extends Controller
         //   where name = $request->old_name
 
         // Insert Eloquent statement below
+        $validated = $request->validated();
+        $validated = $request->safe()->only(['new_name','old_name']);
+
+        Project::where('name', $validated->old_name)->update(['name' => $validated->new_name]);
 
         return redirect('/')->with('success', 'Projects updated');
     }
