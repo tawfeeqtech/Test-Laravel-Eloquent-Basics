@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Stat;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -12,11 +11,12 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         // TASK: Currently this statement fails. Fix the underlying issue.
-        $validated = $request->validated();
-        $validated = $request->safe()->only(['name']);
+        // $validated = $request->validated();
+        // $validated = $request->safe()->only(['name']);
 
         Project::create([
-            'name' => $validated['name']
+            'name' => $request->name
+            // 'name' => $validated['name']
         ]);
 
         return redirect('/')->with('success', 'Project created');
