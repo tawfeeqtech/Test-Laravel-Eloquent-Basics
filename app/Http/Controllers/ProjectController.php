@@ -16,7 +16,7 @@ class ProjectController extends Controller
         $validated = $request->safe()->only(['name']);
 
         Project::create([
-            'name' => $validated->name
+            'name' => $validated['name']
         ]);
 
         return redirect('/')->with('success', 'Project created');
@@ -33,7 +33,7 @@ class ProjectController extends Controller
         $validated = $request->validated();
         $validated = $request->safe()->only(['new_name','old_name']);
 
-        Project::where('name', $validated->old_name)->update(['name' => $validated->new_name]);
+        Project::where('name', $validated['old_name'])->update(['name' => $validated['new_name']]);
 
         return redirect('/')->with('success', 'Projects updated');
     }
